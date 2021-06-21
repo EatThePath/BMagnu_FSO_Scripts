@@ -45,6 +45,7 @@ function RadarIcon:Load()
 	end
 	
 	self.Colors = self.Config.Colors
+	self.ShipClassColors = self.Config.ShipClassColors
 	
 	self.Alpha = self.Config.Alpha
 	self.DistanceMult = 1
@@ -220,7 +221,9 @@ function RadarIcon:DrawIcon(obj, team, species, actualtexture, pos, x, y)
 	local alpha = RadarIcon:EvaluateAlpha(pos, x, y, typename)
 	local r, g, b
 
-	if team then
+	if obj:getBreedName() == "Ship" and self.ShipClassColors[obj.Class.Name] then
+  		r, g, b = unpack(self.ShipClassColors[obj.Class.Name])
+	elseif team then
 		r, g, b = unpack(self.ColorCache[team])
 	else
 		r, g, b = RadarIcon:GetColor(species, obj.Team)
